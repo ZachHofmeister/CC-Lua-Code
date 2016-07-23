@@ -1,0 +1,64 @@
+--REMEMBER: Redstone on back, modem on top. Default redstone state is on, use a NOT gate!!!
+--REMEMBER: ADD ID's for POCKETID1, POCKETID2
+
+rednet.open("top")
+rs.setOutput("back", true)
+oneConfirmed = false
+twoConfirmed = false
+
+while true do
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setTextColor(colors.red)
+
+	print("WolfBiOS v10.7")
+	print("WOLFTECH INDUSTRIES FAILSAFE EXPLOSIVE DETONATOR")
+	print("WARNING: DESTRUCTION OF THIS TERMINAL WILL RESULT IN IMMEDIATE DETONATION OF FAILSAFE.")
+	print("Waiting for external commands...")
+
+	id,message = rednet.receive()
+
+	if id == (POCKETID1) or id == (POCKETID2) then
+		if message == "arm" then
+			if id == (POCKETID1) then
+				oneConfirmed = true
+				isArmed()
+			else
+				twoConfirmed = true
+				isArmed()
+			end
+		end
+	end
+
+	function isArmed()
+		if oneConfirmed == true and twoConfirmed == true then
+			term.clear()
+			term.setCursorPos(1,1)
+
+			print("FAILSAFE IS ARMED.")
+			t = 180 --time (t) is equal to 180 seconds (3 minutes)
+			id2,message2 = rednet.receive()
+			repeat
+				term.setCursorPos(1,2)
+				term.write("Countdown: "..t.." Seconds remaining before detonation.")
+				t = t - 1
+				if id2 == (POCKETID1) or id2 == (POCKETID2) then
+					if message2 == "cancel" then
+						term.setCursorPos(1,3)
+						term.setTextColor(colors.green)
+						print("Failsafe detonation canceled by external source. You're welcome.")
+						print("WARNING: DESTRUCTION OF THIS TERMINAL WILL RESULT IN IMMEDIATE DETONATION OF FAILSAFE.")
+					end
+				elseif t = 0 then
+					rs.setOutput("back", false)
+					print("Hasta la vista, baby.")
+					print("DETONATING")
+					sleep(1000)
+				end
+				sleep(1)
+			until t == 0 --counts down till time (t) is 0 (3 minutes passed)
+		elseif oneConfirmed == true or twoConfirmed == true then
+			print("Confirmation to arm received from one out of two keyholders...")
+		end
+	end
+end

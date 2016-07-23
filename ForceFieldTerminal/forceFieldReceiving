@@ -1,0 +1,31 @@
+--REMEMBER: Forcefield projector behind terminal, modem on top!
+--REMEMBER: ADD ID's for SiloID1, SiloID2, SiloID3, SiloID4, SiloID5, SiloID6, SiloID7, SiloID8, MAINID1, MAINID2, MAINID3, POCKETID1, POCKETID2
+
+rednet.open("top")
+
+rs.setOutput("back", true)
+
+while true do
+	term.clear()
+	term.setCursorPos(1,1)
+	print("Wolftech Industries ForceField Control Terminal:")
+	print("ForceField On?: " .. tostring(rs.getOutput("back")))
+	print("Waiting for wireless commands...")
+	id,message = rednet.receive()
+
+	if id == (MAINID1) or id == (MAINID2) or id == (MAINID3) or id == (POCKETID1) or id == (POCKETID2) or id == (SiloID1) or id == (SiloID2) or id == (SiloID3) or id == (SiloID4) or id == (SiloID5) or id == (SiloID6) or id == (SiloID7) or id == (SiloID8) then
+		if message == "on" then
+			term.clear()
+            term.setCursorPos(1,1)
+            print("Arming forcefield...")
+            rs.setOutput("back", true)
+            sleep(2)
+		elseif message == "off" then
+			term.clear()
+	        term.setCursorPos(1,1)
+	        print("Disarming ForceField...")
+			rs.setOutput("back", false)
+			sleep(2)
+		end
+	end
+end

@@ -1,0 +1,292 @@
+--REMEMBER: ADD ID's for SiloID1, SiloID2, SiloID3, SiloID4, SiloID5, SiloID6, SiloID7, SiloID8, FFID, TCID, SiloFFID, MachineFFID, ReactorFFID, CapacitorFFID, HangarFFID, ComputerFFID, BunkerFFID
+
+--Functions go below here--
+function siloControl()
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setTextColor(colors.red)
+	print("Wolftech Industries Silo Control")
+	print("Commands: launch1-8, launchall, back")
+
+	local i3 = read()
+
+	if i3 == "launch1" then
+		print("Launching missile silo 1 at preconfigured target! Silo will be reloaded in 14 seconds.")
+		rednet.send(SiloID1, "fire")
+		sleep(1)
+		siloControl()
+	elseif i3 == "launch2" then
+		print("Launching missile silo 2 at preconfigured target! Silo will be reloaded in 14 seconds.")
+		rednet.send(SiloID2, "fire")
+		sleep(1)
+		siloControl()
+	elseif i3 == "launch3" then
+		print("Launching missile silo 3 at preconfigured target! Silo will be reloaded in 14 seconds.")
+		rednet.send(SiloID3, "fire")
+		sleep(1)
+		siloControl()
+	elseif i3 == "launch4" then
+		print("Launching missile silo 4 at preconfigured target! Silo will be reloaded in 14 seconds.")
+		rednet.send(SiloID4, "fire")
+		sleep(1)
+		siloControl()
+	elseif i3 == "launch5" then
+		print("Launching missile silo 5 at preconfigured target! Silo will be reloaded in 14 seconds.")
+		rednet.send(SiloID5, "fire")
+		sleep(1)
+		siloControl()
+	elseif i3 == "launch6" then
+		print("Launching missile silo 6 at preconfigured target! Silo will be reloaded in 14 seconds.")
+		rednet.send(SiloID6, "fire")
+		sleep(1)
+		siloControl()
+	elseif i3 == "launch7" then
+		print("Launching missile silo 7 at preconfigured target! Silo will be reloaded in 14 seconds.")
+		rednet.send(SiloID7, "fire")
+		sleep(1)
+		siloControl()
+	elseif i3 == "launch8" then
+		print("Launching missile silo 8 at preconfigured target! Silo will be reloaded in 14 seconds.")
+		rednet.send(SiloID8, "fire")
+		sleep(1)
+		siloControl()
+	elseif i3 == "launchall" then
+		print("WARNING: Are you sure you want to mass launch? y/n")
+
+		local i4 = read()
+
+		if i4 == "y" then
+			print("Launching ALL missiles at preconfigured targets!")
+			rednet.send(SiloID1, "fire")
+			rednet.send(SiloID2, "fire")
+			rednet.send(SiloID3, "fire")
+			rednet.send(SiloID4, "fire")
+			rednet.send(SiloID5, "fire")
+			rednet.send(SiloID6, "fire")
+			rednet.send(SiloID7, "fire")
+			rednet.send(SiloID8, "fire")
+			sleep(1)
+			siloControl()
+		elseif i4 == "n" then
+			print("Canceling launch...")
+			sleep(2)
+			siloControl()
+		else
+			print("Invalid command!")
+			sleep(2)
+			siloControl()
+		end
+	elseif i3 == "back" then
+		mainFunction()
+	else
+		print("Invalid command! Please try again.")
+		sleep(2)
+		siloControl()
+	end
+end
+
+function fFControl()
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setTextColor(colors.blue)
+	print("Wolftech Industries Force Field Control")
+	print("Commands: ffon, ffoff, (prefix)ffon, (prefix)ffoff, back")
+	print("Prefixes: room (all rooms), silo, machine, reactor, ")
+	print("capacitor, hangar, computer, bunker")
+	print("No prefix turns on the exterior forcefield.")
+
+	local i5 = read()
+
+	if i5 == "ffon" then --External force field on command
+		print("Arming force field...")
+		rednet.send(FFID, "on")
+		sleep(1)
+		fFControl()
+	elseif i5 == "ffoff" then --External force field off command
+		print("Disarming force field...")
+		rednet.send(FFID, "off")
+		sleep(1)
+		fFControl()
+	elseif i5 == "roomffon" then --All internal force fields on command
+		print("Arming all room force fields...")
+		rednet.send(SiloFFID, "on")
+		rednet.send(MachineFFID, "on")
+		rednet.send(ReactorFFID, "on")
+		rednet.send(CapacitorFFID, "on")
+		rednet.send(HangarFFID, "on")
+		rednet.send(ComputerFFID, "on")
+		rednet.send(BunkerFFID, "on")
+		sleep(1)
+		fFControl()
+	elseif i5 == "roomffoff" then --All internal force fields off command
+		print("Disarming all room force fields...")
+		rednet.send(SiloFFID, "off")
+		rednet.send(MachineFFID, "off")
+		rednet.send(ReactorFFID, "off")
+		rednet.send(CapacitorFFID, "off")
+		rednet.send(HangarFFID, "off")
+		rednet.send(ComputerFFID, "off")
+		rednet.send(BunkerFFID, "off")
+		sleep(1)
+		fFControl()
+	elseif i5 == "siloffon" then --Silo force field on command
+		print("Arming Missile Silo force field...")
+		rednet.send(SiloFFID, "on")
+		sleep(1)
+		fFControl()
+	elseif i5 == "siloffoff" then --Silo force field off command
+		print("Disarming Missile Silo force field...")
+		rednet.send(SiloFFID, "off")
+		sleep(1)
+		fFControl()
+	elseif i5 == "machineffon" then --Machine force field on command
+		print("Arming Machine room force field...")
+		rednet.send(MachineFFID, "on")
+		sleep(1)
+		fFControl()
+	elseif i5 == "machineffoff" then --Machine force field off command
+		print("Disarming Machine room force field...")
+		rednet.send(MachineFFID, "off")
+		sleep(1)
+		fFControl()
+	elseif i5 == "reactorffon" then --Reactor force field on command
+		print("Arming Reactor force field...")
+		rednet.send(ReactorFFID, "on")
+		sleep(1)
+		fFControl()
+	elseif i5 == "reactorffoff" then --Reactor force field off command
+		print("Disarming Reactor force field...")
+		rednet.send(ReactorFFID, "off")
+		sleep(1)
+		fFControl()
+	elseif i5 == "capacitorffon" then --Capacitor force field on command
+		print("Arming Capacitor force field...")
+		rednet.send(CapacitorFFID, "on")
+		sleep(1)
+		fFControl()
+	elseif i5 == "capacitorffoff" then --Capacitor force field off command
+		print("Disarming Capacitor force field...")
+		rednet.send(CapacitorFFID, "off")
+		sleep(1)
+		fFControl()
+	elseif i5 == "hangarffon" then --Hangar force field on command
+		print("Arming Hangar force field...")
+		rednet.send(HangarFFID, "on")
+		sleep(1)
+		fFControl()
+	elseif i5 == "hangarffoff" then --Hangar force field off command
+		print("Disarming Hangar force field...")
+		rednet.send(HangarFFID, "off")
+		sleep(1)
+		fFControl()
+	elseif i5 == "computerffon" then --Computer force field on command
+		print("Arming Computer core force field...")
+		rednet.send(ComputerFFID, "on")
+		sleep(1)
+		fFControl()
+	elseif i5 == "computerffoff" then --Computer force field off command
+		print("Disarming Computer core force field...")
+		rednet.send(ComputerFFID, "off")
+		sleep(1)
+		fFControl()
+	elseif i5 == "bunkerffon" then --Bunker force field on command
+		print("Arming Bunker force field...")
+		rednet.send(BunkerFFID, "on")
+		sleep(1)
+		fFControl()
+	elseif i5 == "bunkerffoff" then --Bunker force field off command
+		print("Disarming Bunker force field...")
+		rednet.send(BunkerFFID, "off")
+		sleep(1)
+		fFControl()
+	elseif i5 == "back" then
+		mainFunction()
+	else
+		print("Invalid command! Please try again.")
+		sleep(1)
+		fFControl()
+	end
+end
+
+function turretControl()
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setTextColor(colors.yellow)
+	print("Wolftech Industries Base Control")
+	print("Commands: turretson, turretsoff, back")
+
+	local i6 = read()
+
+	if i6 == "turretson" then
+		print("Arming WolfTech turret defence system...")
+		rednet.send(TCID, "on")
+		sleep(1)
+		turretControl()
+	elseif i6 == "turretsoff" then
+		print("Disarming WolfTech turret defence system...")
+		rednet.send(TCID, "off")
+		sleep(1)
+		turretControl()
+	elseif i6 == "back" then
+		mainFunction()
+	else
+		print("Invalid command! Please try again.")
+		sleep(2)
+		turretControl()
+	end
+end
+
+function mainFunction()
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setTextColor(colors.lime)
+
+	print("Good to see you, Admin.")
+	print("Commands: silocontrol, ffcontrol, turretcontrol, logoff")
+
+	local i2 = read()
+
+	if i2 == "silocontrol" then
+		siloControl()
+	elseif i2 == "ffcontrol" then
+		fFControl()
+	elseif i2 == "turretcontrol" then
+		turretControl()
+	elseif i2 == "logoff" then
+		sleep(1)
+		os.reboot()
+	else
+		print("Invalid command! Please try again.")
+		sleep(2)
+		mainFunction()
+	end
+end
+
+--Main program starts below here--
+
+rednet.open("top")
+term.clear()
+term.setCursorPos(1,1)
+term.setTextColor(colors.lime)
+
+print("WolfOS v2.1")
+
+term.setTextColor(colors.green)
+
+print("Wolftech Industries Main Terminal")
+print("Please log in:")
+print("Username: Admin")
+
+term.setCursorPos(1,5)
+term.write("Password: ")
+
+local i1 = read("*")
+
+if i1 == "1455" then
+	mainFunction()
+else
+	setTextColor(colors.red)
+	print("LOGIN DENIED")
+	sleep(2)
+	os.reboot()
+end

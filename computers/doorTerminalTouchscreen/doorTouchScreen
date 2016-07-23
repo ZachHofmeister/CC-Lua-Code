@@ -1,0 +1,50 @@
+local devices=peripheral.getNames()
+local monitors={}
+
+local function monitorFind()
+
+	monitors={}
+	for _,side in pairs(devices) do
+		if peripheral.getType(side)=="monitor" then table.insert(monitors,peripheral.wrap(side))
+		end
+	end
+end
+
+local function checkClickPosition(mouseWidth,mouseHeight)
+        if mouseWidth >= 1 and mouseWidth <= 8 then
+                if mouseHeight == 2 then
+                        rs.setOutput("bottom",true)
+                elseif mouseHeight == 4 then
+                        rs.setOutput("bottom",false)
+                end
+        end
+end
+
+local function monitorDraw(monitor)
+        monitor.clear()
+        monitor.setCursorPos(1,1)
+        local w,h=monitor.getSize()
+        monitor.setBackgroundColour((colours.lime))
+        monitor.setCursorPos(2,2)
+        monitor.write("CLOSE")
+        monitor.setCursorPos(2,4)
+        monitor.write("OPEN ")
+        monitor.setBackgroundColour((colours.black))
+end
+
+--Body
+
+rs.setOutput("bottom", true)
+
+monitorFind()
+
+for index,mon in pairs(monitors) do
+	monitorDraw(mon)
+end
+
+repeat
+        event,p1,p2,p3 = os.pullEvent()
+        if event=="monitor_touch" then
+                checkClickPosition(p2,p3)
+        end
+until event=="char" and p1==("x")

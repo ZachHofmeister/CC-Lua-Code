@@ -1,0 +1,41 @@
+--REMEMBER: launcher control to left of terminal, redstone to open door and reload on right, modem on top!!!
+--REMEMBER: ADD ID's for MAINID1, MAINID2, MAINID3, POCKETID1, POCKETID2
+
+rednet.open("top")
+rs.setOutput("right", true)
+
+while true do
+	term.clear()
+	term.setCursorPos(1,1)
+	print("Wolftech Industries Silo Control Terminal:")
+	print("Waiting for wireless commands...")
+	id,message = rednet.receive()
+
+	if id == (MAINID1) or id == (MAINID2) or id == (MAINID3) or id == (POCKETID1) or id == (POCKETID2) or then
+		if message == "fire" then
+			term.clear()
+            term.setCursorPos(1,1)
+            print("Wireless input received!")
+			print("Disarming forcefields...")
+			rednet.send(MainFFID, "off")
+			rednet.send(SiloFFID, "off")
+			sleep(5)
+
+			print("Opening blast doors...")
+			rs.setOutput("right", false)
+			sleep(8)
+
+			print("Launching missile!")
+			rs.setOutput("left", true)
+			sleep(4)
+			rs.setOutput("left", false)
+			sleep(1)
+
+			print("Closing blast doors, arming forcefields, reloading silo...")
+			rs.setOutput("right", true)
+			rednet.send(MainFFID, "on")
+			rednet.send(SiloFFID, "on")
+			sleep(2)
+		end
+	end
+end

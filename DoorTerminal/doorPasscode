@@ -1,0 +1,32 @@
+rs.setOutput("back", true)
+
+while true do
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setTextColor(colors.lime)
+
+	print("WolfOS v2.1")
+
+	term.setTextColor(colors.green)
+
+	print("Wolftech Industries Terminal")
+
+	term.setCursorPos(1,3)
+
+	term.write("Enter a password to continue: ")
+
+	local i1 = read("*")
+
+	if i1 == "1455" then
+		term.clear()
+		term.setCursorPos(1,1)
+		print("Door will be open for 10 seconds.")
+		rs.setOutput("back", false)
+		sleep(10)
+		rs.setOutput("back", true)
+	else
+		term.setTextColor(colors.red)
+		print("INVALID PASSWORD")
+		sleep(1)
+	end
+end

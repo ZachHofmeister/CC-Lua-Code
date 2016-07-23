@@ -1,4 +1,4 @@
-# CC-Lua-Code
-Lua code for computercraft
+# lua-cc
+Some Lua code for use in Computercraft
 
-Feel free to use and modify this code to your liking.
+This code is free for use in ComputerCraft, just a few short programs.

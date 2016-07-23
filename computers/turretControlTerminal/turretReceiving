@@ -1,0 +1,31 @@
+--REMEMBER: Place turret base/redstone behind the terminal, and modem on top!
+--REMEMBER: ADD ID's for MAINID1, MAINID2, MAINID3, POCKETID1, POCKETID2
+
+rednet.open("top")
+
+rs.setOutput("back", false)
+
+while true do
+	term.clear()
+	term.setCursorPos(1,1)
+	print("Wolftech Industries Turret Control Terminal:")
+	print("Turrets On?: " .. !rs.getOutput("back"))
+	print("Waiting for wireless commands...")
+	id,message = rednet.receive()
+
+	if id == (MAINID1) or id == (MAINID2) or id == (MAINID3) or id == (POCKETID1) or id == (POCKETID2) then
+		if message == "on" then
+			term.clear()
+            term.setCursorPos(1,1)
+            print("Arming turret system...")
+            rs.setOutput("back", false)
+            sleep(2)
+		elseif message == "off" then
+			term.clear()
+	        term.setCursorPos(1,1)
+	        print("Disarming turret system...")
+			rs.setOutput("back", true)
+			sleep(2)
+		end
+	end
+end
